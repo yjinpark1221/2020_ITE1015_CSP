@@ -16,19 +16,19 @@ void printNum(int a, int b, int c) {
 }
 int main(void) {
     int a = 10, b = 20, c = 30;
-    printNum(a, b, c);
     while(1) {
-        int command;
-        scanf("%d", &command);
-        if (command==1) {
+        char ch;
+        printNum(a, b, c);
+        scanf(" %c", &ch);
+        if (ch=='1') {
             rotateLeft(&a, &b, &c);
-            printNum(a, b, c);
+            continue;
         }
-        else if(command==2) {
+        else if(ch=='2') {
             rotateRight(&a, &b, &c);
-            printNum(a, b, c);
+            continue;
         }
-        else if (command==3) break;
+        else if (ch=='3') break;
         else {
             printf("Error: Wrong input\n");
             break;
