@@ -41,6 +41,6 @@ int main() {
     for(int i = 0; i < n; ++i) {
         scanf("%d%d", &((arr+i)->xpos), &((arr+i)->ypos));
     }
-    printf("longest: %f\nshortest: %f\n", getLongest(arr, n), getShortest(arr, n));
+    printf("longest: %.4f\nshortest: %.4f\n", getLongest(arr, n), getShortest(arr, n));
     return 0;
 }
