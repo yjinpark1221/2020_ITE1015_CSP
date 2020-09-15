@@ -12,7 +12,7 @@ void addPerson(Person* header, char* name, int age) {
     strcpy(c, name);
     header->name = c;
     header->age = age;
-    header->next = (Person*)malloc(sizeof(Person));
+    header->next = NULL;
 }
 
 void increaseAge(Person* header) {
@@ -20,25 +20,25 @@ void increaseAge(Person* header) {
 }
 
 int main() {
-    Person* p1 = (Person*)malloc(sizeof(Person));
-    Person* now = p1;
+    Person* p = (Person*)malloc(sizeof(Person));
+    Person* now = p;
     while (1) {
         int n;
         scanf("%d", &n);
         if (n==0) {
-            now->next == NULL;
             break;
         }
         for(int i= 0; i < n; ++i) {
             char name[10];
             int age;
+            now->next = (Person*)malloc(sizeof(Person));
+            now = now->next;
             scanf("%s%d", name, &age);
             addPerson(now, name, age);
-            now = now->next;
         }
     }
-    now = p1;
-    while (now->next != NULL) {
+    now = p->next;
+    while (now != NULL) {
         increaseAge(now);
         printf("Name:%s, Age:%d\n", now->name, now->age);
         free(now->name);
