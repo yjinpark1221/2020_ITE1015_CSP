@@ -1,5 +1,5 @@
 point : main.c
 	gcc -o point main.c
 
-clean : point
+clean : 
 	rm point
