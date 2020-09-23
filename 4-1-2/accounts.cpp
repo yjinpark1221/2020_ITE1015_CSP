@@ -1,18 +1,27 @@
 #include "accounts.h"
 #include <iostream>
 Account::Account() {
-    accountId = 0;
-    balance = 0;
+    this -> accountId = 0;
+    this -> balance = 0;
 }
-int Account::getBalance() {return balance;}
-void Account::setBalance(int b) {balance = b;}
-void Account::setId(int id) {accountId = id;}
+int Account::getId() {
+    return this -> accountId;
+}
+int Account::getBalance() {
+    return this -> balance;
+}
+void Account::setId(int id) {
+    this -> accountId = id;
+}
+void Account::setBalance(int b) {
+    this -> balance = b;
+}
 
 AccountManager::AccountManager() {
-    numberOfAccounts = 0;
+    this -> numberOfAccounts = 0;
 }
 void AccountManager::create() {
-    if (numberOfAccounts >= 10) {  // !!! number of accounts exceeding
+    if (this -> numberOfAccounts >= 10) {  
         std::cout << "Failure!\n";
         return;
     }
@@ -24,82 +33,65 @@ void AccountManager::create() {
     checkBalance(n);
 }
 void AccountManager::deposit(int id, int amount) {
-    if (id > numberOfAccounts - 1 || id < 0) { // !!! || ??? approaching error
+    if (id >= this -> numberOfAccounts || id < 0) { 
         std::cout <<"Failure!\n";
         return;
     }
-    if (amount < 0) { // ??? amount error
+    int temp = this -> accountArray[id].getBalance() + amount;
+    if (temp > 1000000) { 
         std::cout << "Failure!\n";
-        checkBalance(id);
+        this -> checkBalance(id);
         return;
     }
-    int temp = accountArray[id].getBalance() + amount;
-    if (temp > 1000000) { // !!! balance limit error
-        std::cout << "Failure!\n";
-        checkBalance(id);
-        return;
-    }
-    accountArray[id].setBalance(temp);
-    std::cout <<"Success!\n";
-    checkBalance(id);
+    this -> accountArray[id].setBalance(temp);
+    std::cout << "Success!\n";
+    this -> checkBalance(id);
 }
 void AccountManager::withdraw(int id, int amount) {
-    if (id > numberOfAccounts - 1 || id < 0) { // !!! || ??? approaching error
+    if (id >= this -> numberOfAccounts || id < 0) { 
         std::cout << "Failure!\n";
         return;
     }
-    if (amount < 0) { // ??? amount error
+    int temp = this -> accountArray[id].getBalance() - amount;
+    if (temp < 0) { 
         std::cout << "Failure!\n";
-        checkBalance(id);
+        this -> checkBalance(id);
         return;
     }
-    int temp = accountArray[id].getBalance() - amount;
-    if (temp < 0) { // !!! balance limit error
-        std::cout << "Failure!\n";
-        checkBalance(id);
-        return;
-    }
-    accountArray[id].setBalance(temp);
+    this -> accountArray[id].setBalance(temp);
     std::cout << "Success!\n";
-    checkBalance(id);
+    this -> checkBalance(id);
 }
 void AccountManager::transfer(int from, int to, int amount) {
-    if (from > numberOfAccounts - 1 || from < 0 || to > numberOfAccounts - 1 || to < 0) {
-        std::cout << "Failure!\n"; // !!! || ??? approaching error
-        return;
-    }
-    if (amount < 0) { // ??? amount error
+    if (from >= this -> numberOfAccounts  || from < 0 || to >= this -> numberOfAccounts || to < 0) {
         std::cout << "Failure!\n";
+        return;
     }
     else {
-        int temp1 = accountArray[from].getBalance() - amount;
-        int temp2 = accountArray[to].getBalance() + amount;
-        if (temp1 < 0 || temp2 > 1000000) { // !!! balance limit error
-            std::cout <<"Failure!\n";
+        int temp1 = this -> accountArray[from].getBalance() - amount;
+        int temp2 = this -> accountArray[to].getBalance() + amount;
+        if (temp1 < 0 || temp2 > 1000000) { 
+            std::cout << "Failure!\n";
         }
         else {
-            accountArray[from].setBalance(temp1);
-            accountArray[to].setBalance(temp2);
-            std::cout<<"Success!\n";
+            this -> accountArray[from].setBalance(temp1);
+            this -> accountArray[to].setBalance(temp2);
+            std::cout << "Success!\n";
         }
     }
-    int min, max;
+    int t1, t2;
     if (from < to) {
-        min = from;
-        max = to;
+        t1 = from;
+        t2 = to;
     }
-    else if (from > to) {
-        min = to;
-        max = from;
+    else {
+        t1 = to;
+        t2 = from;
     }
-    else { // ??? transfer to oneself
-        checkBalance(from);
-        return;
-    }
-    checkBalance(min);
-    checkBalance(max);
+    this -> checkBalance(t1);
+    this -> checkBalance(t2);
 
 }
 void AccountManager::checkBalance(int id) {
-    std::cout << "Balance of user " << id << ": " << accountArray[id].getBalance() << "\n"; 
+    std::cout << "Balance of user " << id << ": " << this -> accountArray[id].getBalance() << "\n"; 
 }

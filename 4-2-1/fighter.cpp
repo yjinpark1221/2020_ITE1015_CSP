@@ -8,34 +8,39 @@ Fighter::Fighter() {
 Fighter::Fighter(int _hp, int _power) {
     mHp = _hp;
     mPower = _power;
-    mStatus = mHp>0;
+    mStatus = true;
 }
 
-int Fighter::getHp() {return mHp;}
-int Fighter::getPower() {return mPower;}
-bool Fighter::getStats() {return mStatus;}
+int Fighter::getHp() {
+    return this -> mHp;
+}
+int Fighter::getPower() {
+    return this -> mPower;
+}
+bool Fighter::getStats() {
+    return this -> mStatus;
+}
 
 void Fighter::setHp(int _hp) {
-    if (_hp < 0) mHp = 0;
-    else mHp =_hp;
-    if (mHp == 0) mStatus = false;
+    if (_hp < 0) this -> mHp = 0;
+    else this -> mHp =_hp;
+    if (mHp == 0) this -> mStatus = false;
 }
 void Fighter::setPower(int _power) {
-    if (_power < 0) mPower = 0;
-    else mPower = _power;
+    if (_power < 0) this -> mPower = 0;
+    else this -> mPower = _power;
 }
 void Fighter::setStatus(bool _status) {
-    mStatus = _status;
+    this -> mStatus = _status;
 }
 
 void Fighter::hit(Fighter * _enemy) {     //H
-    _enemy->setHp(_enemy->getHp()-mPower);
+    _enemy -> setHp(_enemy -> getHp() - this -> mPower);
 }
 void Fighter::attack(Fighter * _enemy) {  //A
-    _enemy->setHp(_enemy->getHp()-mPower);
-    mPower = 0;
+    _enemy -> setHp(_enemy -> getHp() - this -> mPower);
+    this -> mPower = 0;
 }
 void Fighter::emPower(int _power) {       //P
-    setPower(mPower + _power);
+    this -> setPower(this -> mPower + _power);
 }
-

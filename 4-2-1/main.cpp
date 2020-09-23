@@ -22,7 +22,7 @@ int main() {
         }
         else if (command == 'A') {     // attack
             int f;
-            std::cin>>f;
+            std::cin >> f;
             if (f == 1) f1 -> attack(f2);
             else f2 -> attack(f1);
         }
@@ -42,7 +42,7 @@ int main() {
             std::cout << "F1: DEAD;\n";
             break;
         }
-        else if(f2 -> getStats() == 0) {
+        else if (f2 -> getStats() == 0) {
             std::cout << "F2: DEAD;\n";
             break;
         }

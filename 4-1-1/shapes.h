@@ -1,26 +1,16 @@
-struct Point{
-    int x, y;
-    Point(int, int);
-};
 class Circle{
 private:
-    Point center;
+    int x, y;
     int radius;
 public:
-    double area(int);
-    double perimeter(int);
-    Circle(Point, int);
     Circle(int, int, int);
     void printArea();
     void printPerimeter();
 };
 class Rectangle{
 private:
-    Point top_left, bottom_right;
+    int top_left_x, top_left_y, bottom_right_x, bottom_right_y;
 public:
-    int area(Point, Point);
-    int perimeter(Point, Point);
-    Rectangle(Point, Point);
     Rectangle(int, int, int, int);
     void printArea();
     void printPerimeter();
