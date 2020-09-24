@@ -39,11 +39,11 @@ int main() {
             break;
         }
         if (f1 -> getStats() == 0) {
-            std::cout << "F1: DEAD;\n";
+            std::cout << "F1: DEAD\n";
             break;
         }
         else if (f2 -> getStats() == 0) {
-            std::cout << "F2: DEAD;\n";
+            std::cout << "F2: DEAD\n";
             break;
         }
     }
