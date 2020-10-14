@@ -16,7 +16,6 @@ public:
 class Zebra : public Animal {
 private:
     int numStripes;
-
 public:
     Zebra();
     Zebra(std::string, int, int);

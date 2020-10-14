@@ -1,18 +1,19 @@
 #include "animals.h"
 #include <iostream>
 #include <vector>
+
 int main() {
     char q;
     std::vector<Animal*> v;
     while (std::cin >> q && q != '0') {
-        if(q == 'z'){
+        if (q == 'z') {
             std::string name;
             int age, numStripes;
             std::cin >> name >> age >> numStripes;
             Zebra* z = new Zebra(name, age, numStripes);
             v.push_back(z);
         }
-        else if(q == 'c') {
+        else if (q == 'c') {
             std::string name, favoriteToy;
             int age;
             std::cin >> name >> age >> favoriteToy;

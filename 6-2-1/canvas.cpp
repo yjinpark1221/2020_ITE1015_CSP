@@ -1,49 +1,55 @@
 #include "canvas.h"
 #include <iostream>
+
+//garo width,  row, x, i
+//sero height, col, y, j
+
+//canvas[sero][garo]
+
 Canvas::Canvas(size_t row, size_t col) : row(row), col(col) {
-    std::vector<char> newRow(col, '.');
-    canvas.resize(row, newRow);
+    std::vector<char> newRow(row, '.');                 // garo
+    canvas.resize(col, newRow);                         // sero
 }
-Canvas::~Canvas() {}
-void Canvas::Resize(size_t w, size_t h) {
-    if(w < 0 || h < 0) return;
-    std::vector<char> newRow (w, '.');
-    std::vector<std::vector<char> > newCanvas(h, newRow);
-    for (int i = 0; i < std::min(row, h); ++i) {
-        for (int j = 0; j < std::min(col, w); ++j) {
-            newCanvas[i][j] = canvas[i][j];
-        }
+Canvas::~Canvas() {
+    for (int i = 0; i < v.size(); ++i) {                // shape
+        delete v[i];
     }
-    this->row = h;
-    this->col = w;
-    canvas.clear();
-    canvas = newCanvas;
 }
-bool Canvas::DrawPixel(int x, int y, char brush) {
-    if (0 <= x && x < row && 0 <= y && y < col) {
-        canvas[x][y] = brush;
+void Canvas::Resize(size_t w, size_t h) {
+    this->row = w;                                      // garo
+    this->col = h;                                      // sero
+    canvas.clear();
+    std::vector<char> newRow(row, '.');
+    canvas.resize(col, newRow);
+    for (int i = 0; i < v.size(); ++i) {
+        v[i]->Draw(this);
+    }
+}
+bool Canvas::DrawPixel(int x, int y, char brush) {      // garo, sero
+    if (0 <= x && x < row && 0 <= y && y < col) {       // garo, sero
+        canvas[y][x] = brush;                           // sero
         return true;
     }
     return false;
 }
 void Canvas::Print() {
     std::cout << " ";
-    for(int j = 0; j < col; ++j) {
-        std::cout << j % 10;
+    for (int i = 0; i < row; ++i) {                     // garo
+        std::cout << i % 10;
     }
     std::cout <<"\n";
-    for (int i = 0; i < row; ++i) {
-        std::cout << i % 10;
-        for (int j = 0; j < col; ++j) {
-            std::cout << canvas[i][j];
+    for (int j = 0; j < col; ++j) {                     // sero
+        std::cout << j % 10;
+        for (int i = 0; i < row; ++i) {                 // garo
+            std::cout << canvas[j][i];
         }
         std::cout << "\n";
     }
 }
 void Canvas::Clear() {
-    for(int i = 0; i < row; ++i) {
-        for(int j = 0; j < col; ++j) {
-            canvas[i][j] = '.';
+    for (int j = 0; j < col; ++j) {                     // sero
+        for (int i = 0; i < row; ++i) {                 // garo
+            canvas[j][i] = '.';
         }
     }
 }
@@ -52,7 +58,8 @@ void Canvas::AddShape(Shape* pShape) {
     pShape->Draw(this);
 }
 void Canvas::DeleteShape(size_t ii) {
-    if (ii < 0 || ii >= v.size()) return;
+    if (ii < 0 || ii >= v.size()) return;               // shape
+    delete v[ii];
     v.erase(v.begin() + ii);
     Clear();
     for (int i = 0; i < v.size(); ++i) {
@@ -60,13 +67,14 @@ void Canvas::DeleteShape(size_t ii) {
     }
 }
 void Canvas::PrintShape() {
-    for(int i = 0; i < v.size(); ++i) {
+    for (int i = 0; i < v.size(); ++i) {                // shape
         std::cout << i;
         v[i]->Print();
     }
 }
+
 Shape::Shape() {}
-Shape::Shape(int x, int y, char brush) : x(x), y(y), brush(brush) {}
+Shape::Shape(int x, int y, char brush) : x(x), y(y), brush(brush) {}// garo, sero
 Shape::~Shape() {}
 void Shape::Draw(Canvas* canvas) {}
 void Shape::Print() {}
@@ -74,9 +82,9 @@ void Shape::Print() {}
 Rectangle::Rectangle (int x, int y, int w, int h, char brush) : Shape(x, y, brush), w(w), h(h) {}
 Rectangle::~Rectangle() {};
 void Rectangle::Draw(Canvas* pCanvas) {
-    for (int i = x; i < x + w; ++i) {
-        for (int j = y; j < y + h; ++j) {
-            pCanvas->DrawPixel(i, j, brush);
+    for (int j = y; j < y + h; ++j) {                   // sero
+        for (int i = x; i < x + w; ++i) {               // garo
+            pCanvas->DrawPixel(i, j, brush);            // garo, sero
         }
     }
 }
@@ -88,9 +96,9 @@ UpTriangle::UpTriangle(int x, int y, int h, char brush) : Shape(x, y, brush), h(
 UpTriangle::~UpTriangle() {}
 void UpTriangle::Draw(Canvas* pCanvas) {
     int cnt = 0;
-    for (int i = x; i < x + h; ++i) {
-        for (int j = y - cnt; j <= y + cnt; ++j) {
-            pCanvas->DrawPixel(i, j, brush);
+    for (int j = y; j < y + h; ++j) {                   // sero
+        for (int i = x - cnt; i <= x + cnt; ++i) {      // garo
+            pCanvas->DrawPixel(i, j, brush);            // garo, sero
         }
         ++cnt;
     }
@@ -103,8 +111,8 @@ DownTriangle::DownTriangle(int x, int y, int h, char brush) : Shape(x, y, brush)
 DownTriangle::~DownTriangle() {}
 void DownTriangle::Draw(Canvas* pCanvas) {
     int cnt = 0;
-    for (int i = x; i >= x - h + 1; --i) {
-        for (int j = y - cnt; j <= y + cnt; ++j) {
+    for (int j = y; j > y - h; --j) {
+        for (int i = x - cnt; i <= x + cnt; ++i) {
             pCanvas->DrawPixel(i, j, brush);
         }
         ++cnt;
@@ -117,14 +125,14 @@ Diamond::Diamond(int x, int y, int d, char brush) : Shape(x, y, brush), d(d) {}
 Diamond::~Diamond() {}
 void Diamond::Draw(Canvas* pCanvas) {
     int cnt = 0;
-    for (int i = x; i < x + d - 1; ++i) {
-        for (int j = y - cnt; j <= y + cnt; ++j) {
+    for (int j = y; j < y + d - 1; ++j) {
+        for (int i = x - cnt; i <= x + cnt; ++i) {
             pCanvas->DrawPixel(i, j, brush);
         }
         ++cnt;
     }
-    for(int i = x + d - 1; cnt >= 0; ++i) {
-        for (int j = y - cnt; j <= y + cnt; ++j) {
+    for (int j = y + d - 1; cnt >= 0; ++j) {
+        for (int i = x - cnt; i <= x + cnt; ++i) {
             pCanvas->DrawPixel(i, j, brush);
         }
         --cnt;

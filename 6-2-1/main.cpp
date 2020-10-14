@@ -3,7 +3,7 @@
 #include <iostream>
 int main() {
     int r, c;
-    std::cin >> c >> r;
+    std::cin >> r >> c; // cin >> width >> height
     Canvas canvas(r,c);
     canvas.Print();
     std::string q;
@@ -11,26 +11,26 @@ int main() {
         if (q == "add") {
             std::string shape;
             std::cin >> shape;
-            int x, y, d, h;
+            int x, y, w, h;
             char brush;
             if (shape == "rect") {
-                std::cin >> y >> x >> h >> d >> brush;
-                Rectangle* rectangle = new Rectangle(x, y, d, h, brush);
+                std::cin >> x >> y >> w >> h >> brush;
+                Rectangle* rectangle = new Rectangle(x, y, w, h, brush);
                 canvas.AddShape(rectangle);
             }
             else {
-                std::cin >> y >> x >> d >> brush;
+                std::cin >> x >> y >> h >> brush;
             }
             if (shape == "tri_up") {
-                UpTriangle* ut = new UpTriangle(x, y, d, brush);
+                UpTriangle* ut = new UpTriangle(x, y, h, brush);
                 canvas.AddShape(ut);
             }
             else if (shape == "tri_down") {
-                DownTriangle* dt = new DownTriangle(x, y, d, brush);
+                DownTriangle* dt = new DownTriangle(x, y, h, brush);
                 canvas.AddShape(dt);
             }
             else if (shape == "diamond") {
-                Diamond* diamond = new Diamond(x, y, d, brush);
+                Diamond* diamond = new Diamond(x, y, h, brush);
                 canvas.AddShape(diamond);
             }
         }
@@ -46,7 +46,7 @@ int main() {
             canvas.PrintShape();
         }
         else if (q == "resize") {
-            int newWidth, newHeight;
+            size_t newWidth, newHeight;
             std::cin >> newWidth >> newHeight;
             canvas.Resize(newWidth, newHeight);
         }
