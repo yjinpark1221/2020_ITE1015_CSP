@@ -21,9 +21,6 @@ void Canvas::Resize(size_t w, size_t h) {
     canvas.clear();
     std::vector<char> newRow(row, '.');
     canvas.resize(col, newRow);
-    for (int i = 0; i < v.size(); ++i) {
-        v[i]->Draw(this);
-    }
 }
 bool Canvas::DrawPixel(int x, int y, char brush) {      // garo, sero
     if (0 <= x && x < row && 0 <= y && y < col) {       // garo, sero
@@ -33,6 +30,10 @@ bool Canvas::DrawPixel(int x, int y, char brush) {      // garo, sero
     return false;
 }
 void Canvas::Print() {
+    Clear();
+    for (int i = 0; i < v.size(); ++i) {
+        v[i]->Draw(this);
+    }
     std::cout << " ";
     for (int i = 0; i < row; ++i) {                     // garo
         std::cout << i % 10;
@@ -61,10 +62,6 @@ void Canvas::DeleteShape(size_t ii) {
     if (ii < 0 || ii >= v.size()) return;               // shape
     delete v[ii];
     v.erase(v.begin() + ii);
-    Clear();
-    for (int i = 0; i < v.size(); ++i) {
-        v[i]->Draw(this);
-    }
 }
 void Canvas::PrintShape() {
     for (int i = 0; i < v.size(); ++i) {                // shape
