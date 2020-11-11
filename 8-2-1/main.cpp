@@ -35,6 +35,7 @@ int main() {
         else if ((*it)->getName() == "pig") ++pig;
         else if ((*it)->getName() == "duck") ++duck;
         totalLegs += (*it)->getNumberOfLegs();
+        delete (*it);
     }
     std::cout << "\nWe have " << cat << " cat";
     if (cat > 1) std::cout << "s";
