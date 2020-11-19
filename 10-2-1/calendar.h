@@ -4,7 +4,7 @@ class MyCalendar {
 public:
     MyCalendar();
     MyCalendar(int year, int month, int day);
-    void NextDay(int n);
+    void NextDay(int n = 1);
     bool SetDate(int year, int month, int day);
     int year() const;
     int month() const;

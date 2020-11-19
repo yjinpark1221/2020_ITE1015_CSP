@@ -2,7 +2,7 @@
 #include <iostream>
 class MyClock {
 public:
-    void Tick(int seconds);
+    void Tick(int seconds = 1);
     bool SetTime(int hour, int minute, int second);
 // If input is invalid, it returns false and does not change the time
     int hour() const;

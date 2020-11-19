@@ -1,5 +1,5 @@
 #include "my_clock.h"
-void MyClock::Tick(int seconds = 1) {
+void MyClock::Tick(int seconds) {
     seconds %= 86400;
     seconds += 86400;
     _sec += seconds;
