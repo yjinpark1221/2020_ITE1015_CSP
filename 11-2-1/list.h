@@ -1,3 +1,5 @@
+#include <iostream>
+
 template <class T>
 class Node {
 public:
@@ -5,13 +7,12 @@ public:
     Node<T>* next;
 };
 
-#include <iostream>
 template <class T>
 class List {
 private:
     Node<T>* head;
 public:
-    List() : head(NULL) {};
+    List() : head(new Node<T>) {};
     List(T* arr, int n_nodes) {
         head = new Node<T>;
         Node<T>* now = head;
@@ -84,10 +85,12 @@ public:
 template <class U>
 std::ostream& operator<<(std::ostream& out, List<U>& rhs) {
     Node<U>* n = rhs.head->next;
-    out << n->data;
-    while (n->next != NULL) {
-        out << ", " << n->next->data;
-        n = n->next;
+    if (n != NULL) {
+        out << n->data;
+        while (n->next != NULL) {
+            out << ", " << n->next->data;
+            n = n->next;
+        }
     }
     return out;
 };
